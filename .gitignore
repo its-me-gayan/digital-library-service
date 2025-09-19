@@ -1,0 +1,86 @@
+HELP.md
+### IntelliJ IDEA ###
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# Sonarlint plugin
+.sonarlint/
+
+# IntelliJ logs
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/dictionaries
+.idea/**/shelf/
+
+# IntelliJ sensitive settings
+.idea/**/gradle.xml
+.idea/**/libraries
+.idea/**/modules.xml
+
+# IntelliJ files from plugins
+.idea/**/mongoSettings.xml
+.idea/**/dataSources/
+.idea/**/httpRequests/
+
+# Editor-based HTTP client
+*.http
+*.rest
+
+
+### Java ###
+*.class
+*.log
+*.ctxt
+hs_err_pid*
+replay_pid*
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+
+### Spring Boot ###
+# Application logs
+logs/
+*.log
+
+# Spring Boot specific
+*.pid
+*.seed
+*.key
+*.db
+*.h2.db
+*.mv.db
+
+
+### Maven ###
+target/
+!.mvn/wrapper/maven-wrapper.jar
+.mvn/wrapper/maven-wrapper.properties
+.mvn/wrapper/maven-wrapper-downloader.jar
+.settings/
+dependency-reduced-pom.xml
+buildNumber.properties
+
+
+### Gradle ###
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+
+### Others ###
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+*.swo
+
+# Node.js (if frontend lives inside)
+node_modules/
+dist/
