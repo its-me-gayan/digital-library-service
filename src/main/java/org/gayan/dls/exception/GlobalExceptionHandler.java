@@ -55,8 +55,8 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiResponse<Object>> handleNotFound(BookException ex) {
         return responseBuilder.error(HttpStatus.BAD_REQUEST, ex.getMessage());
     }
-    @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<ApiResponse<Object>> handleEntityNotFoundException(EntityNotFoundException ex) {
+    @ExceptionHandler(NoContentFoundException.class)
+    public ResponseEntity<ApiResponse<Object>> handleNoContentFoundException(NoContentFoundException ex) {
         return responseBuilder.error(HttpStatus.NO_CONTENT, ex.getMessage());
     }
 

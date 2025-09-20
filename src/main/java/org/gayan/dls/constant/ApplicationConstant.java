@@ -9,4 +9,7 @@ package org.gayan.dls.constant;
  */
 public class ApplicationConstant {
     public static final String API_VERSION = "v1";
+
+    private ApplicationConstant() {
+    }
 }

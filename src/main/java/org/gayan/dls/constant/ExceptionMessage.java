@@ -9,5 +9,7 @@ package org.gayan.dls.constant;
  */
 public class ExceptionMessage {
 
-    public static final String EXP_MSG_BOOK_NOT_FOUND = "Book Not found !";
+    private ExceptionMessage() {
+    }
+
 }

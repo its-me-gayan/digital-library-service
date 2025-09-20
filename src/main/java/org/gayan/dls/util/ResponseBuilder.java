@@ -3,6 +3,7 @@ package org.gayan.dls.util;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.gayan.dls.constant.ApplicationConstant;
+import org.gayan.dls.constant.ResponseCodes;
 import org.gayan.dls.dto.generic.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,6 +35,7 @@ public class ResponseBuilder {
                         .status(HttpStatus.OK.value())
                         .path(request.getRequestURI())   // <-- auto injected
                         .message(message)
+                        .responseCode(ResponseCodes.RP_SUCCESS)
                         .data(data)
                         .build()
         );
@@ -46,6 +48,7 @@ public class ResponseBuilder {
                         .apiVersion(ApplicationConstant.API_VERSION)                        .status(status.value())
                         .path(request.getRequestURI())   // <-- auto injected
                         .message(message)
+                        .responseCode(ResponseCodes.RP_VALIDATION_FAILURE)
                         .errors(errors)
                         .build()
         );

@@ -1,20 +1,21 @@
 package org.gayan.dls.service.impl;
 
 
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.gayan.dls.constant.ExceptionMessage;
 import org.gayan.dls.dto.BookRequestDto;
 import org.gayan.dls.dto.BookResponseDto;
 import org.gayan.dls.dto.generic.ApiResponse;
 import org.gayan.dls.entity.Book;
 import org.gayan.dls.exception.BookException;
+import org.gayan.dls.exception.NoContentFoundException;
 import org.gayan.dls.mapper.BookMapper;
 import org.gayan.dls.repository.BookRepository;
 import org.gayan.dls.service.BookManagementService;
 import org.gayan.dls.util.ResponseBuilder;
 import org.gayan.dls.validation.Validator;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +24,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-import static org.gayan.dls.constant.ExceptionMessage.EXP_MSG_BOOK_NOT_FOUND;
 import static org.gayan.dls.constant.ResponseMessage.*;
 
 /**
@@ -72,16 +72,21 @@ public class BookManagementServiceImpl implements BookManagementService {
     @Override
     public ResponseEntity<ApiResponse<BookResponseDto>> getBookById(String bookId) throws BookException {
         Book book = bookRepository
-                .findById(UUID.fromString(bookId)).orElseThrow(() -> new EntityNotFoundException(EXP_MSG_BOOK_NOT_FOUND));
+                .findById(UUID.fromString(bookId)).orElseThrow(NoContentFoundException::new);
         return responseBuilder
                 .success(bookMapper.mapBookEntityToBookResponseDtoWithCopies(book) , RPM_BOOK_FOUND);
 
     }
 
     @Override
-    public ResponseEntity<ApiResponse<List<BookResponseDto>>>  getAllBooksWithPagination(int page, int size, String sortBy, String sortDirection) throws BookException {
-        return null;
+    public ResponseEntity<ApiResponse<Page<BookResponseDto>>> getAllBooksWithPagination(Pageable pageable) throws BookException {
+        Page<Book> booksPage = bookRepository.findAll(pageable);
+        if(booksPage.isEmpty()){
+            throw new NoContentFoundException();
+        }
+        Page<BookResponseDto> responsePage = booksPage.map(bookMapper::mapBookEntityToBookResponseDto);
+        return responseBuilder
+                .success(responsePage , RPM_BOOK_FOUND);
+
     }
-
-
 }

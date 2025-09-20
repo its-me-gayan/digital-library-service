@@ -5,6 +5,8 @@ import org.gayan.dls.dto.BookRequestDto;
 import org.gayan.dls.dto.BookResponseDto;
 import org.gayan.dls.dto.generic.ApiResponse;
 import org.gayan.dls.exception.BookException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
@@ -18,5 +20,5 @@ import java.util.List;
 public interface BookManagementService {
     ResponseEntity<ApiResponse<BookResponseDto>> persistBook(BookRequestDto bookRequestDto) throws BookException;
     ResponseEntity<ApiResponse<BookResponseDto>> getBookById(String bookId) throws BookException;
-    ResponseEntity<ApiResponse<List<BookResponseDto>>>  getAllBooksWithPagination(int page , int size , String sortBy , String sortDirection ) throws BookException;
+    ResponseEntity<ApiResponse<Page<BookResponseDto>>>  getAllBooksWithPagination(Pageable pageable) throws BookException;
 }
