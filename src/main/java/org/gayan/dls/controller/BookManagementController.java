@@ -36,13 +36,13 @@ public class BookManagementController {
     }
 
     @GetMapping("/books/{bookId}")
-    public ResponseEntity<ApiResponse<BookResponseDto>> getBookById(@ValidUUID @PathVariable(value = "bookId") String bookId) {
+    public ResponseEntity<ApiResponse<BookResponseDto>> getBookById(@ValidUUID(message = "Invalid Book format - should be a UUID") @PathVariable(value = "bookId") String bookId) {
         return bookManagementService.getBookById(bookId);
     }
 
     @GetMapping("/books")
     public ResponseEntity<ApiResponse<Page<BookResponseDto>>> getAllBooksWithPagination(
-            @PageableDefault(page = 0, size = 20, sort = "title", direction = Sort.Direction.ASC) Pageable pageable) {
+            @PageableDefault(page = 0, size = 10, sort = "title", direction = Sort.Direction.ASC) Pageable pageable) {
         return bookManagementService.getAllBooksWithPagination(pageable);
     }
 }

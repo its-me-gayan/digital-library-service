@@ -52,8 +52,13 @@ public class GlobalExceptionHandler {
 
     // ✅ Handle custom business exceptions
     @ExceptionHandler(BookException.class)
-    public ResponseEntity<ApiResponse<Object>> handleNotFound(BookException ex) {
-        return responseBuilder.error(HttpStatus.BAD_REQUEST, ex.getMessage());
+    public ResponseEntity<ApiResponse<Object>> handleBookException(BookException ex) {
+        return responseBuilder.error(ex.getHttpStatus(), ex.getMessage());
+    }
+    // ✅ Handle custom business exceptions
+    @ExceptionHandler(BorrowerException.class)
+    public ResponseEntity<ApiResponse<Object>> handleBorrowerException(BorrowerException ex) {
+        return responseBuilder.error(ex.getHttpStatus(), ex.getMessage());
     }
     @ExceptionHandler(NoContentFoundException.class)
     public ResponseEntity<ApiResponse<Object>> handleNoContentFoundException(NoContentFoundException ex) {

@@ -10,25 +10,25 @@ import org.springframework.http.HttpStatus;
  * Date: 9/20/25
  * Time: 12:30 AM
  */
-public class BookException extends RuntimeException{
 
+public class BorrowerException extends RuntimeException{
     @Getter
     private HttpStatus httpStatus;
 
-    public BookException(String message, Throwable cause) {
+    public BorrowerException(String message, Throwable cause) {
         super(message, cause);
         httpStatus = HttpStatus.BAD_REQUEST;
     }
-
-    public BookException(String message) {
+    public BorrowerException(String message) {
         super(message);
         httpStatus = HttpStatus.BAD_REQUEST;
     }
-    public BookException(String message , HttpStatus httpStatus) {
+    public BorrowerException(String message, HttpStatus httpStatus) {
         super(message);
         this.httpStatus = httpStatus;
     }
 
-    public BookException() {
+    public BorrowerException() {
     }
+
 }

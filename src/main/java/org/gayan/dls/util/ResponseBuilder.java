@@ -30,6 +30,7 @@ public class ResponseBuilder {
     public <T> ResponseEntity<ApiResponse<T>> success(T data, String message) {
         return ResponseEntity.ok(
                 ApiResponse.<T>builder()
+                        .success(Boolean.TRUE)
                         .timestamp(Instant.now())
                         .apiVersion(ApplicationConstant.API_VERSION)
                         .status(HttpStatus.OK.value())
@@ -44,6 +45,7 @@ public class ResponseBuilder {
     public <T> ResponseEntity<ApiResponse<T>> error(HttpStatus status, String message, List<String> errors ) {
         return ResponseEntity.status(status).body(
                 ApiResponse.<T>builder()
+                        .success(Boolean.TRUE)
                         .timestamp(Instant.now())
                         .apiVersion(ApplicationConstant.API_VERSION)                        .status(status.value())
                         .path(request.getRequestURI())   // <-- auto injected
@@ -56,6 +58,7 @@ public class ResponseBuilder {
     public <T> ResponseEntity<ApiResponse<T>> error(HttpStatus status, String message) {
         return ResponseEntity.status(status).body(
                 ApiResponse.<T>builder()
+                        .success(Boolean.TRUE)
                         .timestamp(Instant.now())
                         .apiVersion(ApplicationConstant.API_VERSION)
                         .status(status.value())

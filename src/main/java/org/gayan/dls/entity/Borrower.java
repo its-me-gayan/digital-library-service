@@ -36,13 +36,9 @@ public class Borrower {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @NotBlank(message = "Name is required")
-    @Size(min = 2, max = 255, message = "Name must be between 2 and 255 characters")
     @Column(nullable = false, length = 255)
     private String name;
 
-    @NotBlank(message = "Email is required")
-    @Email(message = "Invalid email format")
     @Column(nullable = false, unique = true, length = 255)
     private String email;
 
@@ -57,21 +53,6 @@ public class Borrower {
     @UpdateTimestamp
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
-
-//    // Helper methods
-//    public void addBorrowedBook(Book book) {
-//        borrowedBooks.add(book);
-//        book.setBorrowedBy(this);
-//        book.setIsBorrowed(true);
-//        book.setBorrowedAt(LocalDateTime.now());
-//    }
-//
-//    public void removeBorrowedBook(Book book) {
-//        borrowedBooks.remove(book);
-//        book.setBorrowedBy(null);
-//        book.setIsBorrowed(false);
-//        book.setBorrowedAt(null);
-//    }
 
     public int getBorrowedBooksCount() {
         return borrowedBooks != null ? borrowedBooks.size() : 0;
