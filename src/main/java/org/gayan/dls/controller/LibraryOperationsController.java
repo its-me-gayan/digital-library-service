@@ -1,6 +1,11 @@
 package org.gayan.dls.controller;
 
 
+import lombok.RequiredArgsConstructor;
+import org.gayan.dls.dto.BorrowBookRequestDto;
+import org.gayan.dls.dto.BorrowBookResponseDto;
+import org.gayan.dls.dto.generic.ApiResponse;
+import org.gayan.dls.service.LibraryOperationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,11 +17,14 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/api/v1/operation/")
+@RequiredArgsConstructor
 public class LibraryOperationsController {
 
+    private final LibraryOperationService libraryOperationService;
+
     @PostMapping("/borrowBook")
-    public ResponseEntity<?> borrowBook(){
-return null;
+    public ResponseEntity<ApiResponse<BorrowBookResponseDto>> borrowBook(@RequestBody BorrowBookRequestDto borrowBookRequestDto){
+return libraryOperationService.borrowBook(borrowBookRequestDto);
     }
 
     @PostMapping("/returnBook")

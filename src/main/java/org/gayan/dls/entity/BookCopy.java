@@ -3,6 +3,8 @@ package org.gayan.dls.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.gayan.dls.constant.BookStatus;
+import org.hibernate.annotations.DynamicUpdate;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -19,6 +21,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@DynamicUpdate
 public class BookCopy {
 
     @Id
@@ -39,5 +42,12 @@ public class BookCopy {
 
     @Column(name = "borrowed_at")
     private LocalDateTime borrowedAt;
+
+    @OneToOne(mappedBy = "bookCopy", cascade = CascadeType.ALL)
+    private BorrowingHistory borrowRecord;
+
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private BookStatus bookStatus;
 
 }

@@ -1,9 +1,7 @@
 package org.gayan.dls.exception;
 
 
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.gayan.dls.constant.ApplicationConstant;
 import org.gayan.dls.dto.generic.ApiResponse;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import jakarta.validation.ConstraintViolationException;
@@ -58,6 +56,10 @@ public class GlobalExceptionHandler {
     // ✅ Handle custom business exceptions
     @ExceptionHandler(BorrowerException.class)
     public ResponseEntity<ApiResponse<Object>> handleBorrowerException(BorrowerException ex) {
+        return responseBuilder.error(ex.getHttpStatus(), ex.getMessage());
+    }
+    @ExceptionHandler(LibraryOperationException.class)
+    public ResponseEntity<ApiResponse<Object>> handleLibraryOperationException(LibraryOperationException ex) {
         return responseBuilder.error(ex.getHttpStatus(), ex.getMessage());
     }
     @ExceptionHandler(NoContentFoundException.class)

@@ -1,13 +1,16 @@
 package org.gayan.dls.mapper;
 
 
+import org.gayan.dls.constant.BookStatus;
 import org.gayan.dls.dto.BookCopyDto;
 import org.gayan.dls.dto.BookRequestDto;
 import org.gayan.dls.dto.BookResponseDto;
 import org.gayan.dls.entity.Book;
 import org.gayan.dls.entity.BookCopy;
+import org.gayan.dls.entity.Borrower;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 
 import java.time.LocalDateTime;
@@ -19,7 +22,7 @@ import java.time.LocalDateTime;
  * Time: 10:07 PM
  */
 
-@Mapper(componentModel = "spring",imports = { LocalDateTime.class })
+@Mapper(componentModel = "spring",imports = { LocalDateTime.class, BookStatus.class})
 public interface BookMapper {
 
     @Mapping(target = "id", ignore = true)
@@ -33,6 +36,7 @@ public interface BookMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(source = "book", target = "book") // map entity to relation
     @Mapping(target = "isBorrowed", constant = "false")
+    @Mapping(target = "bookStatus", expression = "java(BookStatus.AVAILABLE)")
     @Mapping(target = "borrowedAt", expression = "java(null)") // not borrowed yet
     @Mapping(target = "borrowedBy", expression = "java(null)") // no borrower yet
     BookCopy buildBookCopy(Book book);
@@ -66,4 +70,11 @@ public interface BookMapper {
     @Mapping(source = "borrowedBy", target = "borrowedBy")
     @Mapping(source = "borrowedAt", target = "borrowedAt")
     BookCopyDto mapBookCopyToDto(BookCopy copy);
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "isBorrowed", constant = "true")
+    @Mapping(target = "bookStatus", expression = "java(BookStatus.BORROWED)")
+    @Mapping(target = "borrowedAt", expression = "java(LocalDateTime.now())")
+    @Mapping(target = "borrowedBy", source = "borrower")
+    void updateBookCopyForBorrowing(@MappingTarget BookCopy bookCopy , Borrower borrower);
 }

@@ -34,9 +34,9 @@ public class BorrowingHistory {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "book_id", nullable = false)
-    private Book book;
+    @OneToOne
+    @JoinColumn(name = "book_copy_id", nullable = false, unique = true)
+    private BookCopy bookCopy;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "borrower_id", nullable = false)
@@ -52,29 +52,28 @@ public class BorrowingHistory {
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    // Helper methods
-    public boolean isActive() {
-        return returnedAt == null;
-    }
-
-    public void markAsReturned() {
-        this.returnedAt = LocalDateTime.now();
-    }
-
-    public long getBorrowingDurationInDays() {
-        LocalDateTime endDate = returnedAt != null ? returnedAt : LocalDateTime.now();
-        return java.time.Duration.between(borrowedAt, endDate).toDays();
-    }
+//    // Helper methods
+//    public boolean isActive() {
+//        return returnedAt == null;
+//    }
+//
+//    public void markAsReturned() {
+//        this.returnedAt = LocalDateTime.now();
+//    }
+//
+//    public long getBorrowingDurationInDays() {
+//        LocalDateTime endDate = returnedAt != null ? returnedAt : LocalDateTime.now();
+//        return java.time.Duration.between(borrowedAt, endDate).toDays();
+//    }
 
     @Override
     public String toString() {
         return "BorrowingHistory{" +
                 "id=" + id +
-                ", bookId=" + (book != null ? book.getId() : null) +
+                ", bookCopyId=" + (bookCopy != null ? bookCopy.getId() : null) +
                 ", borrowerId=" + (borrower != null ? borrower.getId() : null) +
                 ", borrowedAt=" + borrowedAt +
                 ", returnedAt=" + returnedAt +
-                ", isActive=" + isActive() +
                 '}';
     }
 }
