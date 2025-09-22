@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.gayan.dls.dto.generic.ApiResponse;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import jakarta.validation.ConstraintViolationException;
-import org.gayan.dls.util.ResponseBuilder;
+import org.gayan.dls.util.DlsResponseBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class GlobalExceptionHandler {
 
-    private final ResponseBuilder responseBuilder;
+    private final DlsResponseBuilder responseBuilder;
 
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

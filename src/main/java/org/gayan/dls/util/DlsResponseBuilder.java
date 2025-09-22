@@ -19,11 +19,11 @@ import java.util.List;
  * Time: 11:30 PM
  */
 @Component
-public class ResponseBuilder {
+public class DlsResponseBuilder {
     private final HttpServletRequest request;
 
     @Autowired
-    public ResponseBuilder(HttpServletRequest request) {
+    public DlsResponseBuilder(HttpServletRequest request) {
         this.request = request;
     }
 
@@ -45,9 +45,10 @@ public class ResponseBuilder {
     public <T> ResponseEntity<ApiResponse<T>> error(HttpStatus status, String message, List<String> errors ) {
         return ResponseEntity.status(status).body(
                 ApiResponse.<T>builder()
-                        .success(Boolean.TRUE)
+                        .success(Boolean.FALSE)
                         .timestamp(Instant.now())
-                        .apiVersion(ApplicationConstant.API_VERSION)                        .status(status.value())
+                        .apiVersion(ApplicationConstant.API_VERSION)
+                        .status(status.value())
                         .path(request.getRequestURI())   // <-- auto injected
                         .message(message)
                         .responseCode(ResponseCodes.RP_VALIDATION_FAILURE)
@@ -58,12 +59,13 @@ public class ResponseBuilder {
     public <T> ResponseEntity<ApiResponse<T>> error(HttpStatus status, String message) {
         return ResponseEntity.status(status).body(
                 ApiResponse.<T>builder()
-                        .success(Boolean.TRUE)
+                        .success(Boolean.FALSE)
                         .timestamp(Instant.now())
                         .apiVersion(ApplicationConstant.API_VERSION)
                         .status(status.value())
                         .path(request.getRequestURI())   // <-- auto injected
                         .message(message)
+                        .responseCode(ResponseCodes.RP_UNEXPECTED_ERROR)
                         .build()
         );
     }

@@ -12,7 +12,7 @@ import org.gayan.dls.exception.NoContentFoundException;
 import org.gayan.dls.mapper.BookMapper;
 import org.gayan.dls.repository.BookRepository;
 import org.gayan.dls.service.BookManagementService;
-import org.gayan.dls.util.ResponseBuilder;
+import org.gayan.dls.util.DlsResponseBuilder;
 import org.gayan.dls.validation.Validator;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -40,7 +40,7 @@ public class BookManagementServiceImpl implements BookManagementService {
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
     private final Validator<Book> bookValidator;
-    private final ResponseBuilder responseBuilder;
+    private final DlsResponseBuilder responseBuilder;
 
     @Transactional
     @Override

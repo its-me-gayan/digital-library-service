@@ -13,7 +13,7 @@ import org.gayan.dls.exception.NoContentFoundException;
 import org.gayan.dls.mapper.BorrowerMapper;
 import org.gayan.dls.repository.BorrowerRepository;
 import org.gayan.dls.service.BorrowerManagementService;
-import org.gayan.dls.util.ResponseBuilder;
+import org.gayan.dls.util.DlsResponseBuilder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -42,7 +42,7 @@ public class BorrowerManagementServiceImpl implements BorrowerManagementService 
 
     private final BorrowerRepository borrowerRepository;
     private final BorrowerMapper borrowerMapper;
-    private final ResponseBuilder responseBuilder;
+    private final DlsResponseBuilder responseBuilder;
 
     /**
      * Registers a new borrower in the system.

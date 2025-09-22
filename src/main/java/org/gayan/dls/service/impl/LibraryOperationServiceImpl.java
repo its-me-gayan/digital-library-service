@@ -24,7 +24,7 @@ import org.gayan.dls.repository.BookRepository;
 import org.gayan.dls.repository.BorrowerHistoryRepository;
 import org.gayan.dls.repository.BorrowerRepository;
 import org.gayan.dls.service.LibraryOperationService;
-import org.gayan.dls.util.ResponseBuilder;
+import org.gayan.dls.util.DlsResponseBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -56,7 +56,7 @@ public class LibraryOperationServiceImpl implements LibraryOperationService {
     private final BookRepository bookRepository;
     private final BorrowerRepository borrowerRepository;
     private final BorrowerHistoryRepository borrowerHistoryRepository;
-    private final ResponseBuilder responseBuilder;
+    private final DlsResponseBuilder responseBuilder;
     private final BookCopyRepository bookCopyRepository;
     private final BookMapper bookMapper;
     private final BorrowingHistoryMapper borrowingHistoryMapper;
