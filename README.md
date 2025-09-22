@@ -107,8 +107,8 @@ target/site/jacoco/index.html
 
 All APIs are secured with **Basic Authentication**.
 
-- **Username:** `admin`
-- **Password:** `secret123` (configurable via Kubernetes Secret or `.env`)
+- **Username:** `contact me for details`
+- **Password:** `contact me for details` (configurable via Kubernetes Secret or `.env`)
 
 Example cURL:
 
