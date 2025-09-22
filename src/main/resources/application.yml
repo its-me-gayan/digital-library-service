@@ -1,8 +1,12 @@
 server:
   port: 8181
-#  servlet:
-#    context-path: /dls
+
+
 spring:
+  security:
+    user:
+      name: ${BASIC_AUTH_USER:admin}
+      password: ${BASIC_AUTH_PASSWORD:secret123}
   datasource:
     url: ${SPRING_DATASOURCE_URL}
     username: ${SPRING_DATASOURCE_USERNAME}
