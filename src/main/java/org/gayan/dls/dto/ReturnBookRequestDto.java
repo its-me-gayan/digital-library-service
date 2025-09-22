@@ -11,15 +11,14 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.gayan.dls.validation.annotation.ValidUUID;
 
-@Data
-public class ReturnBookRequestDto {
+public record ReturnBookRequestDto (
 
     @NotNull(message = "bookId is required")
     @ValidUUID(message = "Invalid Book id - should be a UUID")
-    private String bookId;
+     String bookId,
 
     @NotNull(message = "borrowerId is required")
     @ValidUUID(message = "Invalid borrower Id - should be a UUID")
-    private String borrowerId;
+     String borrowerId
 
-}
+){}

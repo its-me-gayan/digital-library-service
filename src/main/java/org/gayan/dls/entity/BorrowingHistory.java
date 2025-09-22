@@ -20,7 +20,6 @@ import java.util.UUID;
 @Entity
 @Table(name = "borrowing_history",
         indexes = {
-                @Index(name = "idx_borrowing_book_id", columnList = "book_id"),
                 @Index(name = "idx_borrowing_borrower_id", columnList = "borrower_id"),
                 @Index(name = "idx_borrowing_dates", columnList = "borrowed_at, returned_at")
         })
@@ -34,8 +33,8 @@ public class BorrowingHistory {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @OneToOne
-    @JoinColumn(name = "book_copy_id", nullable = false, unique = true)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "book_copy_id", nullable = false)
     private BookCopy bookCopy;
 
     @ManyToOne(fetch = FetchType.LAZY)

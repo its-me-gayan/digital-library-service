@@ -4,6 +4,8 @@ package org.gayan.dls.controller;
 import lombok.RequiredArgsConstructor;
 import org.gayan.dls.dto.BorrowBookRequestDto;
 import org.gayan.dls.dto.BorrowBookResponseDto;
+import org.gayan.dls.dto.ReturnBookRequestDto;
+import org.gayan.dls.dto.ReturnBookResponseDto;
 import org.gayan.dls.dto.generic.ApiResponse;
 import org.gayan.dls.service.LibraryOperationService;
 import org.springframework.http.ResponseEntity;
@@ -28,8 +30,8 @@ return libraryOperationService.borrowBook(borrowBookRequestDto);
     }
 
     @PostMapping("/returnBook")
-    public ResponseEntity<?> returnBook(){
-        return null;
+    public ResponseEntity<ApiResponse<ReturnBookResponseDto>> returnBook(@RequestBody ReturnBookRequestDto returnBookRequestDto){
+        return libraryOperationService.returnBook(returnBookRequestDto);
     }
 
     @GetMapping("/getBorrowing/{borrowerId}")

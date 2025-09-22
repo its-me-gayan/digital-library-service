@@ -73,8 +73,15 @@ public interface BookMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "isBorrowed", constant = "true")
-    @Mapping(target = "bookStatus", expression = "java(BookStatus.BORROWED)")
+    @Mapping(target = "bookStatus", source = "bookStatus")
     @Mapping(target = "borrowedAt", expression = "java(LocalDateTime.now())")
     @Mapping(target = "borrowedBy", source = "borrower")
-    void updateBookCopyForBorrowing(@MappingTarget BookCopy bookCopy , Borrower borrower);
+    void updateBookCopyForBorrowing(@MappingTarget BookCopy bookCopy , Borrower borrower , BookStatus bookStatus);
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "isBorrowed", constant = "false")
+    @Mapping(target = "bookStatus", source = "bookStatus")
+    @Mapping(target = "borrowedAt", expression = "java(null)")
+    @Mapping(target = "borrowedBy", expression = "java(null)")
+    void updateBookCopyForReturn(@MappingTarget BookCopy bookCopy , BookStatus bookStatus);
 }

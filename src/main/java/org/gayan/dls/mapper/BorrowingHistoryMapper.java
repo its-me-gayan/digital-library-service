@@ -30,27 +30,4 @@ public interface BorrowingHistoryMapper {
     @Mapping(target = "returnedAt", expression = "java(null)")
     BorrowingHistory buildBorrowingHistory(BookCopy bookCopy , Borrower borrower);
 
-    @Mapping(target = "bookId" , source = "book.id")
-    @Mapping(target = "isbn" , source = "book.isbn")
-    @Mapping(target = "bookName" , source = "book.title")
-    @Mapping(target = "borrowerId" , source = "borrower.id")
-    @Mapping(target = "borrowerName" , source = "borrower.name")
-    @Mapping(target = "borrowerEmail" , source = "borrower.email")
-    @Mapping(target = "borrowedAt" , source = "bookCopy.borrowedAt")
-    @Mapping(
-            target = "availableCopiesToBorrow",
-            source = "book",
-            qualifiedByName = "mapAvailableCopies"
-    )    BorrowBookResponseDto buildResponseDto(Book book ,Borrower borrower , BookCopy bookCopy);
-
-    // ---- Helper method ----
-    @Named("mapAvailableCopies")
-    default int mapAvailableCopies(Book book) {
-        if (book.getCopies() == null) {
-            return 0;
-        }
-        return (int) book.getCopies().stream()
-                .filter(c -> !Boolean.TRUE.equals(c.getIsBorrowed()) && c.getBookStatus().equals(BookStatus.AVAILABLE))
-                .count();
-    }
 }

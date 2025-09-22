@@ -7,6 +7,8 @@ import org.gayan.dls.constant.BookStatus;
 import org.hibernate.annotations.DynamicUpdate;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -32,7 +34,7 @@ public class BookCopy {
     @Column(name = "is_borrowed", nullable = false)
     private Boolean isBorrowed = false;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id")
     private Book book;
 
@@ -43,8 +45,8 @@ public class BookCopy {
     @Column(name = "borrowed_at")
     private LocalDateTime borrowedAt;
 
-    @OneToOne(mappedBy = "bookCopy", cascade = CascadeType.ALL)
-    private BorrowingHistory borrowRecord;
+    @OneToMany(mappedBy = "bookCopy", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<BorrowingHistory> borrowRecords = new ArrayList<>();
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)

@@ -3,39 +3,33 @@ package org.gayan.dls.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.gayan.dls.dto.BookRequestDto;
-import org.gayan.dls.dto.BookResponseDto;
 import org.gayan.dls.dto.BorrowerRequestDto;
 import org.gayan.dls.dto.BorrowerResponseDto;
 import org.gayan.dls.dto.generic.ApiResponse;
-import org.gayan.dls.entity.Book;
 import org.gayan.dls.entity.Borrower;
 import org.gayan.dls.exception.BookException;
 import org.gayan.dls.exception.BorrowerException;
 import org.gayan.dls.exception.NoContentFoundException;
-import org.gayan.dls.mapper.BookMapper;
 import org.gayan.dls.mapper.BorrowerMapper;
-import org.gayan.dls.repository.BookRepository;
 import org.gayan.dls.repository.BorrowerRepository;
-import org.gayan.dls.service.BookManagementService;
 import org.gayan.dls.service.BorrowerManagementService;
 import org.gayan.dls.util.ResponseBuilder;
-import org.gayan.dls.validation.Validator;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.gayan.dls.constant.ResponseMessage.*;
-
 /**
+ * Service implementation for managing borrower-related operations.
+ * Responsibilities:
+ * - Registering new borrowers with email uniqueness enforcement.
+ * - Fetching borrower details by ID.
+ * - Listing borrowers with pagination support.
+ * Transaction boundaries are managed at the repository level,
+ * as these are simple CRUD operations.
  * Author: Gayan Sanjeewa
  * User: gayan
  * Date: 9/20/25
@@ -50,10 +44,22 @@ public class BorrowerManagementServiceImpl implements BorrowerManagementService 
     private final BorrowerMapper borrowerMapper;
     private final ResponseBuilder responseBuilder;
 
+    /**
+     * Registers a new borrower in the system.
+     *
+     * Flow:
+     * 1. Validate uniqueness of borrower by email (enforces system-wide unique email constraint).
+     * 2. Map request DTO to entity and persist in the database.
+     * 3. Return borrower details in response.
+     *
+     * @param borrowerRequestDto borrower registration details
+     * @return ApiResponse with borrower details
+     * @throws BorrowerException if a borrower already exists with the given email
+     */
     @Override
     public ResponseEntity<ApiResponse<BorrowerResponseDto>> persistBorrower(BorrowerRequestDto borrowerRequestDto) throws BookException {
 
-        Optional<Borrower> borrowerByEmail = borrowerRepository.findBorrowerByEmail(borrowerRequestDto.getEmail());
+        Optional<Borrower> borrowerByEmail = borrowerRepository.findBorrowerByEmail(borrowerRequestDto.email());
         if(borrowerByEmail.isPresent()){
             throw new BorrowerException("Borrower already exist in the system for the given email address" , HttpStatus.CONFLICT);
         }
@@ -61,11 +67,35 @@ public class BorrowerManagementServiceImpl implements BorrowerManagementService 
         return responseBuilder.success(borrowerMapper.mapBorrowerEntityToBorrowerResponseDto(savedBorrower) , "Borrower registration success !");
     }
 
+    /**
+     * Retrieves borrower details by ID.
+     *
+     * Flow:
+     * 1. Validate borrower existence by ID.
+     * 2. Map entity to response DTO.
+     *
+     * @param borrowerId borrower UUID as String
+     * @return ApiResponse with borrower details
+     * @throws NoContentFoundException if borrower not found
+     */
     @Override
     public ResponseEntity<ApiResponse<BorrowerResponseDto>> getBorrowerById(String borrowerId) throws BookException {
         Borrower borrower = borrowerRepository.findById(UUID.fromString(borrowerId)).orElseThrow(NoContentFoundException::new);
         return responseBuilder.success(borrowerMapper.mapBorrowerEntityToBorrowerResponseDto(borrower) , "Borrower found successfully !");
     }
+
+    /**
+     * Retrieves all borrowers in a paginated format.
+     *
+     * Flow:
+     * 1. Query borrowers with pagination.
+     * 2. If no borrowers found, throw a NoContentFoundException.
+     * 3. Map entities to response DTOs.
+     *
+     * @param pageable pagination configuration (page, size, sort)
+     * @return ApiResponse containing paged borrower list
+     * @throws NoContentFoundException if no borrowers exist
+     */
 
     @Override
     public ResponseEntity<ApiResponse<Page<BorrowerResponseDto>>> getAllBorrowersWithPagination(Pageable pageable) throws BookException {

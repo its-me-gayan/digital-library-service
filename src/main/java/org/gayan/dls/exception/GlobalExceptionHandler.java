@@ -70,6 +70,7 @@ public class GlobalExceptionHandler {
     // ✅ Fallback for all other exceptions
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse<Object>> handleGeneric(Exception ex) {
+        ex.printStackTrace();
         return responseBuilder.error(HttpStatus.INTERNAL_SERVER_ERROR, "Unexpected error: " + ex.getMessage());
     }
 }

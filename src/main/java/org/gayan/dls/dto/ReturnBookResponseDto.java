@@ -21,6 +21,6 @@ public class ReturnBookResponseDto {
     private String borrowerName;
     private String borrowerEmail;
     private String availableCopiesToBorrow;
-    private LocalDateTime borrowedAt;
+    private LocalDateTime returnedAt;
 
 }

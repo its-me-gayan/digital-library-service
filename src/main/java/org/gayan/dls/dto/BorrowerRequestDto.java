@@ -11,10 +11,8 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
 
-@Data
-public class BorrowerRequestDto {
+public record BorrowerRequestDto (
 
     @NotNull(message = "Email is required")
     @Email(message = "Invalid email format")
@@ -22,11 +20,10 @@ public class BorrowerRequestDto {
             regexp = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$",
             message = "Invalid email format"
     )
-    private String email;
-
+    String email,
 
     @NotNull(message = "Name is required")
     @Size(min = 1, max = 500, message = "Name must be between 1 and 500 characters")
-    private String name;
+    String name
 
-}
+){}
